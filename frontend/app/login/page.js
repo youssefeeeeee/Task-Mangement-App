@@ -12,13 +12,17 @@ export default function login() {
     const handlesubmit = async (e) => {
         e.preventDefault();
         seterr('');
+        if(!form.email || !form.password) {
+            seterr("Please fill in all fields");
+            return;
+        }
         try{
         const res = await api.post('/auth/login',form);
         const token = res.data.token;
         localStorage.setItem('token',token);
         router.push('/dashboard');
         } catch (error) {
-      seterr('you dont have an ac');
+      seterr(" You don't have an account");
     }
     }
     return (
@@ -28,7 +32,8 @@ export default function login() {
                     <h1 className="mb-8 text-3xl font-semibold text-white">Connexion</h1>
                     <input className="mb-6 w-full rounded-full bg-white/20 px-5 py-3 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:bg-white/30 transition" name='email' type="email" value={form.email} onChange={handlechange} placeholder='Email..'/>
                     <input className="mb-6 w-full rounded-full bg-white/20 px-5 py-3 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:bg-white/30 transition" name='password' type="password" value={form.password} onChange={handlechange} placeholder='Password...'/>
-                    <button className="mb-6 w-full rounded-full bg-indigo-600 py-3 text-lg font-semibold text-white shadow-md shadow-indigo-700/50 hover:bg-indigo-700 transition">Se Connecter</button>
+                    <button className="mb-6 w-full rounded-full bg-indigo-600 py-3 text-lg font-semibold text-white shadow-md shadow-indigo-700/50 hover:bg-indigo-700 transition cursor-pointer">Se Connecter</button>
+                    <p className='text-white'>You don't have an account?<a href="/register" className='text-blue-600 underline'> Sign Up</a></p>
                     {err && <div className="text-red-500 mb-2">{err}</div>}
                 </form>
             </main>

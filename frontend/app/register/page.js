@@ -14,6 +14,10 @@ export default function register() {
     const handlesubmit = async (e) => {
         e.preventDefault();
         seterr('');
+        if(!form.email || !form.password || !form.name){
+            seterr("Please fill in all fields");
+            return;
+        }
         try{
             await api.post('/auth/register',form);
             router.push('/login');
@@ -26,11 +30,11 @@ export default function register() {
             <main className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 py-12 text-center font-sans">
                 <form onSubmit={handlesubmit} className="w-full max-w-md rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 p-8 shadow-lg">
                     <h1 className="mb-8 text-3xl font-semibold text-white">Inscription</h1>
-                    {err && <div className="text-red-500 mb-2">{err}</div>}
                     <input name="name" type="text" value={form.name} onChange={handlechanges} placeholder="Name.." className="mb-6 w-full rounded-full bg-white/20 px-5 py-3 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:bg-white/30 transition"/>
                     <input name="email" type="email" value={form.email} onChange={handlechanges} placeholder="Email..." className="mb-6 w-full rounded-full bg-white/20 px-5 py-3 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:bg-white/30 transition"/>
                     <input name="password" type="password" value={form.password} onChange={handlechanges} placeholder="Password..." className="mb-6 w-full rounded-full bg-white/20 px-5 py-3 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:bg-white/30 transition"/>
-                    <button className="mb-6 w-full rounded-full bg-indigo-600 py-3 text-lg font-semibold text-white shadow-md shadow-indigo-700/50 hover:bg-indigo-700 transition">S'inscrire</button>
+                    <button type="submit" className="mb-6 w-full rounded-full bg-indigo-600 py-3 text-lg font-semibold text-white shadow-md shadow-indigo-700/50 hover:bg-indigo-700 transition cursor-pointer">S'inscrire</button>
+                    {err && <div className="text-red-500 mb-2">{err}</div>}
                 </form>
             </main>
         </div>
