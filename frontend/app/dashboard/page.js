@@ -120,7 +120,7 @@ export default function dashboard() {
             className="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition"
             title="Toggle Dark Mode"
           >
-            {darkMode ? (
+            {darkMode ?  (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6 text-yellow-400"

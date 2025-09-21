@@ -1,4 +1,3 @@
-import { darkMode } from "./app/dashboard/page";
 
 const config = {
   darkMode:"class",
