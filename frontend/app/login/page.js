@@ -22,7 +22,7 @@ export default function login() {
         localStorage.setItem('token',token);
         router.push('/dashboard');
         } catch (error) {
-      seterr(" You don't have an account");
+      seterr(" your email or password is incorrect");
     }
     }
     return (
