@@ -283,9 +283,9 @@ export default function dashboard() {
                   onChange={(e) => setform({ ...form, status: e.target.value })}
                   className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100"
                 >
-                  <option value="todo">À faire</option>
-                  <option value="in-progress">En cours</option>
-                  <option value="done">Terminée</option>
+                  <option value="to-do">to-do</option>
+                  <option value="in-progress">in-progress</option>
+                  <option value="done">done</option>
                 </select>
                 <div className="flex justify-end gap-4">
                   <button
