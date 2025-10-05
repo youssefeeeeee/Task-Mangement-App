@@ -1,38 +1,40 @@
 "use client";
-import api from "@/utils/api";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-
-export default function Register() {
-    const [form, setForm] = useState({name:'', email:'', password:''});
+import api from '@/utils/api';
+import {useState} from 'react';
+import { useRouter } from 'next/navigation';
+export default function Login() {
+    const [form, setForm] = useState({email:'', password:''});
     const [err, setErr] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
-
     const handleChange = (e) => setForm({...form, [e.target.name]: e.target.value});
-
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErr('');
         
-        if(!form.email || !form.password || !form.name){
+        if(!form.email || !form.password) {
             setErr("Please fill in all fields");
             return;
         }
         
         setIsLoading(true);
-        // Simulate registration - replace with your actual API call
-          try {
-                await api.post('/auth/register', form);
-                router.push('/');
-            } catch (error) {
-            setErr("Registration failed. Please try again.");
-             } finally {
-            setIsLoading(false);
+        try {
+            const res = await api.post("/auth/login",form);
+            const token = res.data.token;
+            localStorage.setItem('token', token);
+            router.push("/dashboard");
+        }catch (error) {
+            if (error.response && error.response.data && error.response.data.message) {
+                setErr(error.response.data.message);
+            } else {
+                setErr("An error occurred. Please try again.");
             }
-        }
-
-    return(
+    }
+}
+    
+    return (
+        
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-amber-50/30 to-slate-50 flex items-center justify-center p-4">
             {/* Decorative background elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -48,8 +50,8 @@ export default function Register() {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                         </svg>
                     </div>
-                    <h1 className="text-2xl font-semibold text-slate-900 mb-2">Create your account</h1>
-                    <p className="text-slate-600 text-sm">Get started with your task management</p>
+                    <h1 className="text-2xl font-semibold text-slate-900 mb-2">Welcome back</h1>
+                    <p className="text-slate-600 text-sm">Sign in to continue to your tasks</p>
                 </div>
                 
                 {/* Main form card */}
@@ -60,21 +62,6 @@ export default function Register() {
                                 {err}
                             </div>
                         )}
-                        
-                        <div>
-                            <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-2">
-                                Full name
-                            </label>
-                            <input
-                                id="name"
-                                name="name"
-                                type="text"
-                                value={form.name}
-                                onChange={handleChange}
-                                placeholder="John Doe"
-                                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition"
-                            />
-                        </div>
                         
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-2">
@@ -104,9 +91,6 @@ export default function Register() {
                                 placeholder="••••••••"
                                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition"
                             />
-                            <p className="mt-2 text-xs text-slate-500">
-                                Must be at least 8 characters
-                            </p>
                         </div>
                         
                         <button
@@ -114,15 +98,15 @@ export default function Register() {
                             disabled={isLoading}
                             className="w-full py-3 px-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-medium rounded-xl shadow-lg shadow-amber-500/30 hover:shadow-xl hover:shadow-amber-500/40 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {isLoading ? 'Creating account...' : 'Create account'}
+                            {isLoading ? 'Signing in...' : 'Sign in'}
                         </button>
                     </form>
                     
                     <div className="mt-6 text-center">
                         <p className="text-slate-600 text-sm">
-                            Already have an account?{' '}
-                            <a href="/login" className="text-amber-600 hover:text-amber-700 font-medium transition">
-                                Sign in
+                            Don't have an account?{' '}
+                            <a href="/register" className="text-amber-600 hover:text-amber-700 font-medium transition">
+                                Sign up
                             </a>
                         </p>
                     </div>
@@ -130,7 +114,7 @@ export default function Register() {
                 
                 {/* Footer text */}
                 <p className="text-center text-slate-500 text-xs mt-6">
-                    By creating an account, you agree to our Terms of Service and Privacy Policy
+                    By signing in, you agree to our Terms of Service and Privacy Policy
                 </p>
             </div>
         </div>

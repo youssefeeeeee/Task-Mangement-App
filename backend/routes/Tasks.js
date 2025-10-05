@@ -26,7 +26,16 @@ router.post('/',auth,async (req,res) => {
 
 router.get('/',auth,async (req,res) => {
     try{
-        const tasks = await Task.find({userID: req.user.userID}) ;
+        const {status,search} = req.query;
+        const query = {userId:req.user.userId};
+        let tasks;
+        if(status && status !== "all"){
+            query.status = status;
+        }
+        if(search){
+            query.title = {$regex: search, $options : 'i'};
+        }
+        tasks = await Task.find(query);
         res.json(tasks);
     }catch(err){
         res.status(500).json({message: "erreur de serveur"});
@@ -37,7 +46,7 @@ router.get('/',auth,async (req,res) => {
 
 router.put('/:id',auth, async (req,res) => {
     try{
-        const task = await Task.findByIdAndUpdate({_id : req.params.id,userID:req.user.userID},req.body,{new:true});
+        const task = await Task.findByIdAndUpdate({_id : req.params.id,userId:req.user.userId},req.body,{new:true});
         if(!task) return res.status(404).json({message: "Tache introuvable"});
         res.json(task);
     } catch(err){
@@ -50,7 +59,7 @@ router.put('/:id',auth, async (req,res) => {
 
 router.delete('/:id',auth, async (req,res) => {
     try{
-        const task = await Task.findByIdAndDelete({_id : req.params.id,userID:req.user.userID});
+        const task = await Task.findByIdAndDelete({_id : req.params.id,userId:req.user.userId});
         if(!task) return res.status(404).json({message: "Tache introuvable"});
         res.json({message: "tache supprimer avec succes"});
     } catch(err){
