@@ -257,7 +257,7 @@ export default function dashboard() {
               <h1 className="text-2xl font-semibold text-slate-900 dark:text-white">Dashboard</h1>
               <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Manage your tasks efficiently</p>
             </div>
-            <button
+            <button name="new task"
               onClick={() => setshowmodal(true)}
               className="px-4 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-medium rounded-xl shadow-lg shadow-amber-500/30 hover:shadow-xl hover:shadow-amber-500/40 transition-all duration-200 flex items-center gap-2"
             >
@@ -326,7 +326,7 @@ export default function dashboard() {
                         setconfmodal(true);
                       }}
                       className="px-3 py-1.5 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700 transition cursor-pointer"
-                      title="Supprimer la tâche"
+                      title="Delete"
                     >
                       Delete
                     </button>
@@ -380,7 +380,7 @@ export default function dashboard() {
             <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-6">Create New Task</h2>
             <form onSubmit={handlecreate} className="space-y-4">
               <div>
-                <label htmlFor="title" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                <label htmlFor="title" name="title" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                   Title
                 </label>
                 <input
@@ -395,7 +395,7 @@ export default function dashboard() {
               </div>
               
               <div>
-                <label htmlFor="description" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                <label htmlFor="description" name="description" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                   Description
                 </label>
                 <textarea
@@ -410,7 +410,7 @@ export default function dashboard() {
               </div>
               
               <div>
-                <label htmlFor="status" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                <label htmlFor="status" name="status" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                   Status
                 </label>
                 <select
